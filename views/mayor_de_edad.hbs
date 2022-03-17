@@ -1,0 +1,15 @@
+<h3>{{title}}</h3>
+{{#if mayor}}
+<p>usted es mayor<a href="/salir">Salir</a> </p>
+{{/if}}
+{{#if menor}}
+<p>usted es menor<a href="/salir">Salir</a> </p>
+{{/if}}
+
+
+{{#unless edad}}
+<p>ingrese la edad</p>
+<form action="/mayor_de_edad" method="post">
+    <input type="number" name="edad"><button>ingresar</button>
+</form>
+{{/unless}}

@@ -11,6 +11,7 @@ var usRouter = require('./routes/us');
 var newsRouter = require('./routes/news');
 var contactRouter = require('./routes/contact');
 var loginRouter = require('./routes/pseudo_login')
+var edadRouter = require('./routes/mayor_de_edad')
 var app = express();
 
 // view engine setup
@@ -46,6 +47,24 @@ app.post('/pseudo_login',function(req,res){
   res.redirect('/pseudo_login')
 })
 
+app.get('/mayor_de_edad', function (req,res){
+  var mayor = (req.session.edad >= 18)
+  var menor = (req.session.edad < 18)
+  res.render('mayor_de_edad',{
+    title:'sessiones en express',
+    edad: req.session.edad,
+    mayor: mayor,
+    menor: menor
+  })
+})
+
+app.post('/mayor_de_edad',function(req,res){
+  if(req.body.edad){
+    req.session.edad = req.body.edad
+  }
+  res.redirect('/mayor_de_edad')
+})
+
 app.get('/salir',function(req,res){
   req.session.destroy();
   res.redirect('/pseudo_login')
@@ -58,6 +77,7 @@ app.use('/us',usRouter);
 app.use('/news',newsRouter);
 app.use('/contact',contactRouter);
 app.use('/pseudo_login',loginRouter);
+app.use('/mayor_de_edad',edadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
